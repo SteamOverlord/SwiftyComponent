@@ -1,0 +1,16 @@
+PODS:
+  - SwiftyComponents (0.1.0)
+
+DEPENDENCIES:
+  - SwiftyComponents (from `../`)
+
+EXTERNAL SOURCES:
+  SwiftyComponents:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  SwiftyComponents: 0c94677a3e0610a46c8bdfd65cf74d63f48aee15
+
+PODFILE CHECKSUM: 321a7523a243a0357cfa57b4f2cd76be36539e81
+
+COCOAPODS: 1.8.4
