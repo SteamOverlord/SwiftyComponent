@@ -12,7 +12,7 @@ open class Object {
     var entityID: String { return String(describing: self) }
 }
 
-open class TObject<T: Object>: Object {
+open class TObject: Object {
     
     //Ref to scene.
     internal weak var parent: Scene?
@@ -27,21 +27,25 @@ open class TObject<T: Object>: Object {
         
     }
    
-    static func instantiate(_ componentList: Component...) -> TObject<T> {
+    //MARK: Instances
+    
+    static func instantiate(_ componentList: Component...) -> TObject {
         let instance = TObject()
         instance.attachComponents(componentList)
         return instance
     }
     
-    static func instantiate(_ componentEntities: ComponentEntity...) -> TObject<T> {
+    static func instantiate(_ componentEntities: ComponentEntity...) -> TObject {
         let instance = TObject()
         
         for componentEntity in componentEntities {
-            
+            instance.attachComponent(instantiateComponent(componentEntity))
         }
         
         return instance
     }
+    
+    //MARK: Component Handlers
     
     func attachComponents(_ list: [Component]) {
         components += list
@@ -51,12 +55,25 @@ open class TObject<T: Object>: Object {
         components += [component]
     }
     
-    func detachComponent(_ component: Component) {
+    func removeComponent(_ component: Component) {
+        components.removeAll { (comp) -> Bool in
+            return comp.entityID == component.entityID
+        }
         
     }
     
-    private func instantiateComponent() {
-        
+    //MARK: LifeCycle
+    
+    //MARK: Privates
+    
+    private func attachOwner(to component: Component) {
+        component.ownerRef = self
+    }
+    
+    private static func instantiateComponent(_ componentEntity: ComponentEntity) -> Component {
+        let component = componentEntity.componentType
+        .instantiate(componentEntity.componentData)
+        return component
     }
 }
 

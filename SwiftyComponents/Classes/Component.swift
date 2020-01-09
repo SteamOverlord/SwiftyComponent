@@ -7,24 +7,23 @@
 
 import Foundation
 
-open class Component<T>: Equatable {
+open class Component: Equatable {
     
     public static func == (lhs: Component, rhs: Component) -> Bool {
         return lhs.entityID == rhs.entityID
     }
     
-    
     var entityID: String {
         return String(describing: self)
     }
     
-    public var owner: Object? {
+    public var owner: TObject? {
         get {
             return ownerRef
         }
     }
     
-    internal weak var ownerRef: TObject<Object>?
+    internal weak var ownerRef: TObject?
     
     internal init(_ data: ComponentData?) {
         if let entityData = data {
@@ -32,13 +31,16 @@ open class Component<T>: Equatable {
         }
     }
     
-    open func instantiate(_ componentData: ComponentData? = nil) -> Component {
+    public static func instantiate(_ componentData: ComponentData? = nil) -> Component {
         let component = Component(componentData)
         return component
     }
     
     //Override to unpack component data
     open func initialData(_ data: ComponentData) {}
+    
+    //Override to handle detach state. Basically remove observers if any.
+    open func onDetach() {}
 }
 
 //open class UIComponent: Component {

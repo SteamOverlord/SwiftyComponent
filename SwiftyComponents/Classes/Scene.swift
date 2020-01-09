@@ -12,9 +12,9 @@ import UIKit
 
 open class Scene: UIWindow {
     
-    private var rootObject: UIObject?
+    private var rootObject: TObject?
     
-    private var sceneObjects = [Object]()
+    private var sceneObjects = [TObject]()
     
     public init(isRootScene: Bool = true) {
         super.init(frame: .zero)
@@ -31,51 +31,49 @@ open class Scene: UIWindow {
         }
     }
     
-    public func attachRootObject(_ object: UIObject) {
+    public func attachRootObject(_ object: TObject) {
         rootObject = object
-        rootViewController = object.root
+        //TODO: Pavel. Change this.
+//        rootViewController = object.root
     }
     
-    public func attachObject(_ object: Object) {
-        object.ownerRef = self
+    public func attachObject(_ object: TObject) {
+        //TODO: Pavel. Change this.
+//        object.ownerRef = self
         sceneObjects.append(object)
         
     }
     
-    public func transitionFromRoot(to object: UIObject,
-                                   _ animated: Bool = true ,
-                                   completion: (() -> Void)? = nil) {
-        //TODO: Perhaps better throw error: non navigatoinController available
-        if let navigationStack = rootObject?.root as? UINavigationController {
-            navigationStack.pushViewController(object.root,
-                                               animated: animated)
-        } else {
-            rootObject?.root.present(object.root,
-                                              animated: animated,
-                                              completion: completion)
-        }
-    }
+//    public func transitionFromRoot(to object: UIObject,
+//                                   _ animated: Bool = true ,
+//                                   completion: (() -> Void)? = nil) {
+//        //TODO: Perhaps better throw error: non navigatoinController available
+//        if let navigationStack = rootObject?.root as? UINavigationController {
+//            navigationStack.pushViewController(object.root,
+//                                               animated: animated)
+//        } else {
+//            rootObject?.root.present(object.root,
+//                                              animated: animated,
+//                                              completion: completion)
+//        }
+//    }
     
-    public func getObject<T: Object>(byClass typeClass: T.Type) -> T? {
-        
-//        return sceneObjects.first(where: { (object) -> Bool in
-//            return object is T
-//        }) as? T
+    public func getObject<T: TObject>(byClass typeClass: T.Type) -> T? {
         return sceneObjects.first(where: { $0 is T }) as? T
     }
     
-    internal func transit(from current: UIObject,
-                          to object: UIObject,
-                          animated: Bool,
-                          isModal: Bool = true,
-                          modalCompletion: (() -> Void)? = nil) {
-        if isModal {
-            current.root.present(object.root,
-                                           animated: animated,
-                                           completion: modalCompletion)
-        } else {
-            guard let navigation = current.root as? UINavigationController else { return }
-            navigation.pushViewController(object.root, animated: animated)
-        }
-    }
+//    internal func transit(from current: UIObject,
+//                          to object: UIObject,
+//                          animated: Bool,
+//                          isModal: Bool = true,
+//                          modalCompletion: (() -> Void)? = nil) {
+//        if isModal {
+//            current.root.present(object.root,
+//                                           animated: animated,
+//                                           completion: modalCompletion)
+//        } else {
+//            guard let navigation = current.root as? UINavigationController else { return }
+//            navigation.pushViewController(object.root, animated: animated)
+//        }
+//    }
 }
