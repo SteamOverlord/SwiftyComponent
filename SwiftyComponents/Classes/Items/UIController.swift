@@ -18,26 +18,33 @@ public protocol UIControllerLifeCycleProtocol: class {
     func onUpdate()
 }
 
-public class UIController: UIViewController {
+public class UIController<T: UIViewController>: UIRepresentable {
+    public typealias classType = T.Type
     
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    var root: T
+    
+    required public init() {
+        root = T.init()
     }
     
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public weak var lifeCycleProtocol: UIControllerLifeCycleProtocol?
-    
-    override public func loadView() {
-        view = lifeCycleProtocol?.attachView()
-    }
-    
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        title = lifeCycleProtocol?.title
-    }
+//    public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+//        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+//    }
+//    
+//    public required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//    
+//    public weak var lifeCycleProtocol: UIControllerLifeCycleProtocol?
+//    
+//    override public func loadView() {
+//        view = lifeCycleProtocol?.attachView()
+//    }
+//    
+//    override public func viewDidLoad() {
+//        super.viewDidLoad()
+//        title = lifeCycleProtocol?.title
+//    }
     
     
 }

@@ -15,16 +15,20 @@ open class Object {
 open class TObject: Object {
     
     //Ref to scene.
-    internal weak var parent: Scene?
+    private weak var parent: Scene?
     
     //list of all components
-    internal var components = [Component]()
+    private var components = [Component]()
     
     public var rootObject: Object?
     public var rootComponent: Component?
     
     private override init() {
         
+    }
+    
+    var owner: Scene? {
+        return parent
     }
    
     //MARK: Instances
@@ -60,6 +64,14 @@ open class TObject: Object {
             return comp.entityID == component.entityID
         }
         
+    }
+    
+    func getComponent<T: Component>(byClass type: T.Type) -> T? {
+        return components.first(where: { $0 is T }) as? T
+    }
+    
+    func getComponents<T: Component>(byClass type: T.Type) -> [T]? {
+        return components.filter({ $0 is T }) as? [T]
     }
     
     //MARK: LifeCycle

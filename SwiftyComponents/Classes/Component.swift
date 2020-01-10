@@ -7,6 +7,13 @@
 
 import Foundation
 
+public protocol Inititalizable {
+    associatedtype T
+    
+    init()
+    
+}
+
 open class Component: Equatable {
     
     public static func == (lhs: Component, rhs: Component) -> Bool {
@@ -41,6 +48,14 @@ open class Component: Equatable {
     
     //Override to handle detach state. Basically remove observers if any.
     open func onDetach() {}
+}
+
+//WIP: Move protocols to a separate file. Make lifecycle handling. Think over layouting.
+open class UIComponent<T: UIRepresentable>: Component {
+    typealias classType = T.Type
+    var root: T = T.init()
+    
+    
 }
 
 //open class UIComponent: Component {

@@ -17,3 +17,10 @@ public struct ComponentEntity {
 public struct ComponentData {
     
 }
+
+public protocol UIRepresentable {
+    associatedtype classType
+    init()
+    
+    func setupLayout()
+}
